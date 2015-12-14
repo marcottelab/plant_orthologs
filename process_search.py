@@ -1,30 +1,21 @@
 #process_search.py
-#process results from hmmsearch
+#take in results of hmmsearch and return fasta with sequences of same OG contatonated
 
 from Bio import SearchIO
 from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
-from Bio.Seq import Seq
-from Bio.Alphabet import generic_protein
 
 results = SearchIO.parse("search_results.tsv", "hmmer3-tab")
-proteome = SeqIO.parse("miniproteome.fasta", "fasta") 
+proteins = SeqIO.to_dict(SeqIO.parse("miniproteome.fasta", "fasta")) 
 records = []
 
 for result in results:
 	catseq = ""
 	catname = ""
-	for hit in result:
-		hitseq = ""
-		for protein in proteome:
-			if hit.id == protein.id:
-				hitseq += protein.seq
-			else:
-				continue
-		catseq += hitseq
+    	for hit in result:       	
+		catseq += proteins[hit.id].seq
 		catname += hit.id
-	records.append(SeqRecord(catseq,
-		 id = result.id, description = catname))
+	records.append(SeqRecord(catseq, id = result.id, description = catname))
 
 SeqIO.write(records, "catproteome.fasta", "fasta")  
 
