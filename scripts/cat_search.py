@@ -2,8 +2,8 @@
 #takes in table output from hmmsearch and 
 #returns fasta with sequences that map to same hmm concatonated
 # argv[1]: fasta file containing proteome 
-# argv[2]: directory where output of hmmsearch.sh is stored
-# argv[3]: name of fasta file that will be created
+# argv[2]: path to hmm_search.sh results
+# argv[3]: name and path for new fasta file
 
 import sys
 from Bio import SearchIO

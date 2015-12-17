@@ -1,8 +1,14 @@
 #!/bin/bash
-# $1: directory where hmms are stored
-# $2: fasta file containing proteome 
-# $3: directory to save output to or where a premade hmmdatabase is stored
+#hmmer_search.sh
+# $1: fasta file containing proteome
+# $2: path and name of directory to store results 
+# $3: name for hmm database, if already created include path
+# optional $4: directory where hmms are stored if haven't made hmm database yet
 
-cat $1/*.hmm > $3/hmms
-hmmpress $3/hmms
-hmmsearch --tblout $3/search_results.tsv $3/hmms $2
+if [[ $# -eq 4 ]]; then
+	cat $4/*.hmm > $2/$3
+	hmmpress $2/$3
+	hmmsearch --tblout $2/"search_results.tsv" $2/$3 $1
+else
+	hmmsearch --tblout $2/"search_results.tsv" $3 $1
+fi	
