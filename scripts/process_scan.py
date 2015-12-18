@@ -20,15 +20,18 @@ def process_scan():
 
 	for protein in results:
 		if len(protein) == 0:
-			OG = protein.id
+			OGid = protein.id
+			e = "n/a"
 		else:
-			OG = protein[0].id.replace(".meta_raw", "")
-		processed.append((sys.argv[3]+" ", protein.id+" ", OG+" ", pid))	
+			OG = protein[0]
+			OGid = OG.id.replace(".meta_raw", "")
+			e = str(OG[0].evalue)
+		processed.append((sys.argv[3]+" ", protein.id+" ", OGid+" ", e+" ", pid))	
 	if os.path.isfile(sys.argv[4]):
 		output = open(sys.argv[4], "a")
 	else:
 		output = open(sys.argv[4], "w")
-		output.write("Level ProteinID GroupID ProteomeID \n")
+		output.write("Level ProteinID GroupID e-value ProteomeID \n")
 		
 	for i in processed:
 		output.write("".join(str(s) for s in i) + "\n")
