@@ -7,7 +7,7 @@
 # $5: name and path for new text file
 # optional $6: directory where hmms are stored if haven't made hmm database yet
 
-if [[ $# -lt 5 ]] || [[ $3 -gt 6 ]]; then
+if [[ $# -lt 5 ]] || [[ $# -gt 6 ]]; then
 	echo "You must enter 5 or 6 arguments"
 else
 	mkdir $2
