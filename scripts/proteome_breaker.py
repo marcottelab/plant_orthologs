@@ -31,7 +31,7 @@ def proteome_breaker():
 				break
 			batch.append(entry)
 		if batch:
-			SeqIO.write(batch, sys.argv[3]+"/"+pid+str(n)+".fasta", "fasta")
+			SeqIO.write(batch, sys.argv[3]+"/"+pid+"."+str(n)+".fasta", "fasta")
 		n+=1	
 	
 #check for correct number of inputs
