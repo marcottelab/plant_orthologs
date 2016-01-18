@@ -2,7 +2,6 @@
 Code, script, and notes for creating ortholog groups for plants (arabidopsis, rice, wheat germ, fern, etc). Requires HMMER3 and Biopython 1.66.
 
 ###Outline for generating orthogroup tables
-Includes command line examples for arabidopsis.
 1. Break proteome into chunks
   * Run proteome_breaker.py
   * 20,000 sequences/file is a good size
