@@ -19,6 +19,7 @@ Code, script, and notes for creating ortholog groups for plants (arabidopsis, ri
 
 **process_edist.py:** Takes aproteome.fasta, hmmerscan results, level of orthologous groups searched against, name and path for output (can make new file or add to existing). Returns a space serperated text file with level, proteinID, orthogroup1 (top hit), evalue1, orthogroup2 (2nd hit), evalue2 and proteomeID (from proteome file name). If no hits orthogroup1 is listed as proteinID. For analysis of evalue distributions.
   `python scripts/process_edist.py input_data/uniprot-proteome%3AUP000006548.fasta output_data/euNOG_arath/scan0.txt eukaryotes output_data/euNOG_arath/arath_edist.txt`
+
 **process_small.py:** Takes aproteome.fasta, hmmerscan results, level of orthologous groups searched against, name and path for output (can make new file or add to existing). Returns a space seperated text file with rank, level, proteinID, orthogroupID, evalue, and proteomeID (from proteome file name). Rank 0 orthogroup is proteinID when a protein has no significant hits (evalue>0.01). Rank 1 orthogroup is the top hit hmm if significant. Rank 2 orthogroup is the second hit, included if the first and second evalues are within 10fold difference.
   `python scripts/process_small.py input_data/uniprot-proteome%3AUP000006548.fasta output_data/euNOG_arath/scan0.txt eukaryotes output_data/euNOG_arath/arath_small.txt`
 
