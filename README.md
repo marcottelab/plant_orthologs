@@ -3,15 +3,15 @@ Code, script, and notes for creating ortholog groups for plants (arabidopsis, ri
 
 ###Outline for generating orthogroup tables
 1. Break proteome into chunks
-	*Run proteome_breaker.py
-	*20,000 sequences/file is a good size
+  * Run proteome_breaker.py
+  * 20,000 sequences/file is a good size
 2. Hmmscan
-	*This is the most expensive task, run on tacc
-	*Run hmmer_scan.sh on each chunk of the proteome
-		*Specify -n 1, -c 16 in header, hmmscan will automatically use all 16 cores for multithreaded parallelization
-		*On stampede this scanned ~1000 sequences/hour. 
+  * This is the most expensive task, run on tacc
+  * Run hmmer_scan.sh on each chunk of the proteome
+    * Specify -n 1, -c 16 in header, hmmscan will automatically use all 16 cores for multithreaded parallelization
+    * On stampede this scanned ~1000 sequences/hour. 
 3. Process scan
-	*Write a bash file running any of the process programs on each scan result from each chunk of the proteome. Add to the same output file.
+  * Write a bash file running any of the process programs on each scan result from each chunk of the proteome. Add to the same output file.
 
 ###Scripts
 hmmer_scan.sh: Takes aproteome.fasta, directory for output, name for a new hmmdatabase or path to an existing hmmdatabase, name for results file, and optional path to a directory containing hmms if an existing hmmdatabase was not provided. Returns compressed hmm database if one was not provided and hmmscan text output. Searchs each protein sequence against an hmm database.
