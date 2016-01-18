@@ -1,16 +1,26 @@
 # plant_orthologs
-Code and script and notes for creating ortholog groups for plants (arabidopsis, rice, wheat germ, fern, etc). Requires HMMER3 and Biopython 1.66.
+Code, script, and notes for creating ortholog groups for plants (arabidopsis, rice, wheat germ, fern, etc). Requires HMMER3 and Biopython 1.66.
 
-###master_scripts
-ortho_catsearch.sh: Takes aproteome.fasta, name and path of new directory for output, name for a new hmmdatabase or path to an existing hmmdatabase, name and path of new fasta file, and optional path to a directory containing hmms if an existing hmmdatabase was not provided. Makes new output directory and calls hmmer_search.sh and cat_search.py, returns a new directory containing the compressed hmm database if one was not provided and hmmsearch table output, as well as a fasta file with all the sequences that mapped to the same hmm concatonated. Searchs each hmm against protein sequences. 
+###Outline for generating orthogroup tables
+1. Break proteome into chunks
+	*Run proteome_breaker.py
+	*20,000 sequences/file is a good size
+2. Hmmscan
+	*This is the most expensive task, run on tacc
+	*Run hmmer_scan.sh on each chunk of the proteome
+		*Specify -n 1, -c 16 in header, hmmscan will automatically use all 16 cores for multithreaded parallelization
+		*On stampede this scanned ~1000 sequences/hour. 
+3. Process scan
+	*Write a bash file running any of the process programs on each scan result from each chunk of the proteome. Add to the same output file.
 
-ortho_tabscan.sh: Takes aproteome.fasta, name and path of new directory for output, name for a new hmmdatabase or path to an existing hmmdatabase, level name, name and path for new text file or an existing file to add to, and optional path to a directory containing hmms if an existing hmmdatabase was not provided. Makes new ouput directory calls hmmer_scan.sh and process_scan.py, returns a new directory containing the compressed hmmdatabase if one was not provided and the hmmscan text output, as well as a text file containg level, proteinID, GroupID, and ProteomeID for each protein in aproteome.fasta. Searchs each protein sequence against an hmm database. 
+###Scripts
+hmmer_scan.sh: Takes aproteome.fasta, directory for output, name for a new hmmdatabase or path to an existing hmmdatabase, name for results file, and optional path to a directory containing hmms if an existing hmmdatabase was not provided. Returns compressed hmm database if one was not provided and hmmscan text output. Searchs each protein sequence against an hmm database.
 
-###scripts
-hmmer_search.sh: Takes aproteome.fasta, name and path of new directory for ouput, name for a new hmmdatabase or path to an existing hmmdatabase, and optional path to a directory containing hmms if an existing hmmdatabase was not provided. Returns a new directory containing the compressed hmm database if one was not provided and hmmsearch table output. Searchs each hmm against protein sequences. 
+process_edist.py: Takes aproteome.fasta, hmmerscan results, level of orthologous groups searched against, name and path for output (can make new file or add to existing). Returns a space serperated text file with level, proteinID, orthogroup1 (top hit), evalue1, orthogroup2 (2nd hit), evalue2 and proteomeID (from proteome file name). If no hits orthogroup1 is listed as proteinID. For analysis of evalue distributions.
+ 
+process_small.py: Takes aproteome.fasta, hmmerscan results, level of orthologous groups searched against, name and path for output (can make new file or add to existing). Returns a space seperated text file with rank, level, proteinID, orthogroupID, evalue, and proteomeID (from proteome file name). Rank 0 orthogroup is proteinID when a protein has no significant hits (evalue>0.01). Rank 1 orthogroup is the top hit hmm if significant. Rank 2 orthogroup is the second hit, included if the first and second evalues are within 10fold difference.
 
-hmmer_scan.sh: Takes aproteome.fasta, name and path of new directory for output, name for a new hmmdatabase or path to an existing hmmdatabase, and optional path to a directory containing hmms if an existing hmmdatabase was not provided. Returns compressed hmm database if one was not provided and hmmscan table output. Searchs each protein sequence against an hmm database.
+process_tot.py: Takes aproteome.fasta, hmmerscan results, level of orthologous groups searched against, name and path for output (can make new file or add to existing). Returns a space seperated text file with rank, level, proteinID, orthogroupID, evalue, and proteomeID (from proteome file name). Rank 0 orthogroup is proteinID when a protein has no significant hits (evalue>0.01). All hits with an e-value<=0.01 yield an entry, rank is based on order in hmmer results.
 
-cat_search.py: Takes aproteome.fasta, path to find table output from hmmer_search.sh, and name and path of new fasta file, returns a fasta file with all the sequences that mapped to the same hmm concatonated. Only works for data from hmmsearch where the hmm is the query and the protein sequences are the result.
+proteome_breaker.py: Takes aproteome.fasta, number of sequences per output file, and directory to store output files. Returns a group of fasta files with specified number of sequences each(except for the last file which will likely be short).
 
-process_scan.py: Takes aproteome.fasta, path of to find output from hmmer_scan.sh, level and name and path of new text file or existing file to add to. Returns a text file containing level, proteinID, groupID and proteomeID for all the entries in aproteome.fasta.

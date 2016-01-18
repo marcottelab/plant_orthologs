@@ -1,6 +1,6 @@
 #proteome_breaker.py
-#takes in fasta file returns a group of fasta files with a specified number of
-#sequences each
+# Takes in fasta file returns a group of fasta files with a specified number of
+# sequences each (except for the last file which will likely be short)
 # argv[1]: fasta file containing proteome
 # argv[2]: number of sequences per output file
 # argv[3]: directory to store output files
@@ -16,9 +16,9 @@ def proteome_breaker():
 	pid = pid.split('/')
 	pid = pid[len(pid)-1] 
 	
+	#build up batches
 	n = 0
 	entry = True
-
 	while entry:
 		batch = []	
 		while len(batch) < int(sys.argv[2]):
@@ -31,7 +31,7 @@ def proteome_breaker():
 				break
 			batch.append(entry)
 		if batch:
-			SeqIO.write(batch, sys.argv[3]+"/"+pid+"."+str(n)+".fasta", "fasta")
+			SeqIO.write(batch, sys.argv[3]+pid+"."+str(n)+".fasta", "fasta")
 		n+=1	
 	
 #check for correct number of inputs
