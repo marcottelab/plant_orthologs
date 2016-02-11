@@ -1,0 +1,14 @@
+#!/bin/bash
+#SBATCH -J 0eu_tra           # job name
+#SBATCH -o 0eu_tra.o%j       # output and error file name (%j expands to jobID)
+#SBATCH -n 1              # total number of mpi tasks requested
+#SBATCH -p normal     # queue (partition) -- normal, development, etc.
+#SBATCH -c 16 		# number of CPUs/task
+#SBATCH -t 48:00:00        # run time (hh:mm:ss) - 1.5 hours
+#SBATCH --mail-user=cmpalmer15.utexas.edu
+#SBATCH --mail-type=begin  # email me when the job starts
+#SBATCH --mail-type=end    # email me when the job finishes
+#SBATCH -A A-cm10          # Specify allocation to charge against
+
+bash scripts/hmmer_scan.sh input_data/traes/ta_IWGSC_MIPSv2.2_HighConf_REPR_UNMAPPED_PROTEIN_2014Jul18.0.fasta output_data/euNOG_traes input_data/euNOG_pressed/euNOG_hmms scan0.txt
+
