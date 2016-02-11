@@ -1,11 +1,9 @@
 #process_tot.py
-# Takes in hmmscan output table and returns text file with rank, level, proteinID, orthogroupID, evalue, and proteome id. 
-# All hits with an e-value<=0.01 yield an entry.
-# If no significant hits one entry with rank 0 and orthogroupID=proteinID.
 # argv[1]: fasta file containing proteome
-# argv[2]: path and name of hmmer_scan.sh results
-# argv[3]: level
-# argv[4]: path and name for new text file or existing file to add to
+# argv[2]: name and path of hmmerscan results
+# argv[3]: level of hmms scanned against (ie eukaryotes)
+# argv[4]: name and path for output (can make new file or add to existing)
+# Returns a space seperated text file with rank, level, proteinID, orthogroupID, evalue and proteomeID (from proteome file name). Rank 0 orthogroup is proteinID when a protein has no significant hits (evalue>0.01). All hits with an e-value<=0.01 yield an entry, rank is based on order in hmmer results.
 
 import os.path
 import sys

@@ -1,9 +1,8 @@
 #proteome_breaker.py
-# Takes in fasta file returns a group of fasta files with a specified number of
-# sequences each (except for the last file which will likely be short)
 # argv[1]: fasta file containing proteome
 # argv[2]: number of sequences per output file
 # argv[3]: directory to store output files
+# Returns a group of fasta file with specified number of sequences each (except for the last file which will likely be short).
 
 import sys
 from Bio import SeqIO

@@ -1,12 +1,12 @@
 #!/bin/bash
-#hmmer_scan.sh
-# runs hmmscan on the provided fasta file against the provided hmmdatabase (must be hmmpressed)
-# alternatively a directory full of hmms can be provided which will be concatonated and hmmpressed prior to scan
+# hmmer_scan.sh
 # $1: fasta file containing proteome
 # $2: path and name of directory to store results
 # $3: name for hmm database, if already created include path
 # $4: name for scan results file
 # optional $5: directory where hmms are stored if haven't made hmm database yet
+# Returns compressed hmm database if one was not provided and hmmscan text output.
+# Searchs each protein sequence against an hmm database.
 
 if [[ $# -eq 5 ]]; then
 	echo $5*.hmm | xargs cat > $2$3
