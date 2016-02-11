@@ -38,17 +38,17 @@ Code, script, and notes for creating ortholog groups for plants (arabidopsis, ri
 ###Note on naming conventions
 Each scanned proteome has a directory for scanned and processed results, named for the set of hmms scanned against and the species of the proteome. For example, euNOG_arath refers to scanning the arabidopsis proteome against eukaryotic orthogroups from EggNOG. Within this directory scan results are named scan0.txt, the number refering to the chunk of the proteome this scan covers. Orthogroup tables are named for the species and process file used. For example, arath_tot.txt refers to the arabidopsis scan results processed by process_tot.py.  
 
-###Outline for generating lgl images from orthogroup tables
-1. Generate master file from orthogroup table (output of any of the process programs) using og_lg_master.py
+###Outline for generating LGL images from orthogroup tables
+1. Generate master file from orthogroup table (output of any of the process programs) using og_lgl_master.py
   * If want to graph ranks 1 and 2 use output of process_small.py to avoid hairball.
-2. Make LGL holder and place master file inside
+2. Make LGL holder directory and place master file inside.
   * Each graph should have it's own holder
 3. Generate .ncol and color files using og_lgl_rank.py or og_lgl_top.py.
 4. Add RBG values to color files
 5. Input .ncol file into LGL  
 
-###Scripts for generating lgl images from orthogroup tables
-**og_lgl_master.py:** Takes name and path of orthogroup table, and name and path for output (can make new file or add to existing). Returns a space seperated text file with orthogroupID, proteinID, rank and species. Entries of ranks 1 and 2 are included. File is sorted by orthogroupID. Master file for creating lgl images.
+###Scripts for generating LGL images from orthogroup tables
+**og_lgl_master.py:** Takes name and path of orthogroup table, and name and path for output (can make new file or add to existing). Returns a space seperated text file with orthogroupID, proteinID, rank and species. Entries of ranks 1 and 2 are included. File is sorted by orthogroupID. Master file for creating LGL images.
   `python scripts/og_lgl_master.py output_data/euNOG_arath/arath_small.txt LGL_holders/plants_rank/plants_master.txt`
 
 **og_lgl_rank.py:** Takes directory for input and outputs, master file (output of og_lgl_master.py), and name for .ncol. Returns .ncol file that can be fed into LGL to plot entries of ranks 1 and 2. Orthogroup will be the central node with proteins that belong to that orthogroup connected to it. Returns color_rank for coloring by rank. Rank 1 is read and rank 2 is blue, need to remove quotations (vim replace) around color before using. Returns color_file for coloring by species. Need to replace species names with RBG codes.
