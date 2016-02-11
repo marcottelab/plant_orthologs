@@ -20,7 +20,7 @@ Code, script, and notes for creating ortholog groups for plants (arabidopsis, ri
 **hmmer_scan.sh:** Takes fasta file containing proteome, directory for output, name for a new hmmdatabase or path to an existing hmmdatabase, name for results file, and optional path to a directory containing hmms if an existing hmmdatabase was not provided. Returns compressed hmm database if one was not provided and hmmscan text output. Searchs each protein sequence against an hmm database.
   `bash scripts/hmmer_scan.sh input_data/arath/uniprot-proteome%3AUP000006548.0.fasta output_data/euNOG_arath/ input_data/euNOG_pressed/euNOG_hmms scan0.txt`
 
-**process_edist.py:** Takes fasta file containing proteome, name and path of hmmerscan results, level of hmms searched against (ie eukaryotes), and name and path for output (can make new file or add to existing). Returns a space seperated text file with level, proteinID, orthogroup1 (top hit), evalue1, orthogroup2 (2nd hit), evalue2 and proteomeID (from proteome file name). If no hits orthogroup1 is listed as proteinID. For analysis of evalue distributions.
+**process_edist.py:** Takes fasta file containing proteome, name and path of hmmerscan results, level of hmms searched against (ie eukaryotes), and name and path for output (can make new file or add to existing). Returns a space seperated text file with level, proteinID, orthogroup1 (top hit), evalue1, orthogroup2 (2nd hit), evalue2 and proteomeID (from proteome file name). If no hits orthogroup1 is listed as proteinID. For analysis of evalue distributions using OG_evalues.Rmd.
   `python scripts/process_edist.py input_data/uniprot-proteome%3AUP000006548.fasta output_data/euNOG_arath/scan0.txt eukaryotes output_data/euNOG_arath/arath_edist.txt`
 
 **process_fusions.py:** Takes fasta file containing proteome, name and path of hmmerscan results, level of hmms searched against (ie eukaryotes), and name and path for output (can make new file or add to existing). Returns a space seperated text file with level, proteinID, orthogroupIDs, and proteome. Proteins included are potential fusion proteins that have more than one significant hit with nonoverlapping regions of alignment.
@@ -34,6 +34,8 @@ Code, script, and notes for creating ortholog groups for plants (arabidopsis, ri
 
 **proteome_breaker.py:** Takes fasta file containing proteome, number of sequences per output file, and directory to store output files. Returns a group of fasta files with specified number of sequences each (except for the last file which will likely be short).
   `python scripts/proteome_breaker.py input_data/uniprot-proteome%3AUP000006548.fasta 20000 input_data/arath/`
+
+**og_evalues.Rmd:** R markdown file for analyzing the distribution of the evalues of the top hits and distribution of the difference between the evalues of the top two hits using output from process_edist.py. 
 
 ###Note on naming conventions
 Each scanned proteome has a directory for scanned and processed results, named for the set of hmms scanned against and the species of the proteome. For example, euNOG_arath refers to scanning the arabidopsis proteome against eukaryotic orthogroups from EggNOG. Within this directory scan results are named scan0.txt, the number refering to the chunk of the proteome this scan covers. Orthogroup tables are named for the species and process file used. For example, arath_tot.txt refers to the arabidopsis scan results processed by process_tot.py.  

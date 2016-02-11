@@ -1,0 +1,83 @@
+---
+title: "OG E-value Distributions"
+author: "Claire Palmer"
+date: "Monday, January 13, 2016"
+output: pdf_document
+---
+E-value distributions for arabidopsis, rice and wheat, hmmscan against eukaryotic OGs from EggNOG. 
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(dplyr)
+euNOG_arath = read.table("arath_edist.txt", header=TRUE)
+euNOG_arath1 = subset(euNOG_arath, euNOG_arath$evalue1!="n/a")
+euNOG_arath1$evalue1 = as.numeric(as.character(euNOG_arath1$evalue1))
+nohits_arath = nrow(euNOG_arath) - nrow(euNOG_arath1)
+nosig_arath = nrow(subset(euNOG_arath1, euNOG_arath1$evalue1>0.01))
+no_arath= nohits_arath + nosig_arath
+title_arath = paste("Arabidopsis top hits\n", no_arath, "proteins had no significant hits\n(evalue <=0.01 is significant)")
+ggplot(euNOG_arath1, aes(x=evalue1)) + geom_density() + scale_x_log10() + ggtitle(title_arath)
+```
+
+
+```{r, echo=FALSE}
+euNOG_arath1filt = euNOG_arath1[euNOG_arath1$evalue2!=0 & euNOG_arath1$evalue2 != "n/a",]
+euNOG_arath1filt$evalue2 = as.numeric(as.character(euNOG_arath1filt$evalue2))
+euNOG_arath1filt$difference = euNOG_arath1filt$evalue1 / euNOG_arath1filt$evalue2
+
+euNOG_arath1filt$difference <- log10(euNOG_arath1filt$difference)
+
+is.na(euNOG_arath1filt) <- sapply(euNOG_arath1filt, is.infinite)
+
+ggplot(data=euNOG_arath1filt, aes(x=difference)) + geom_histogram(binwidth=10) + ggtitle("Arabidopsis top two hits")  
+```
+ 
+
+```{r, echo=FALSE}
+euNOG_orysj = read.table("orysj_edist.txt", header=TRUE)
+euNOG_orysj1 = subset(euNOG_orysj, euNOG_orysj$evalue1!="n/a")
+euNOG_orysj1$evalue1 = as.numeric(as.character(euNOG_orysj1$evalue1))
+nohits_orysj = nrow(euNOG_orysj) - nrow(euNOG_orysj1)
+nosig_orysj = nrow(subset(euNOG_orysj1, euNOG_orysj1$evalue1>0.01))
+no_orysj = nohits_orysj + nosig_orysj
+title_orysj = paste("Rice top hits\n", no_orysj, "proteins had no significant hits")
+ggplot(euNOG_orysj1, aes(x=evalue1)) + geom_density() + scale_x_log10() + ggtitle(title_orysj)
+```
+
+
+```{r, echo=FALSE}
+euNOG_orysj1filt = euNOG_orysj1[euNOG_orysj1$evalue2!=0 & euNOG_orysj1$evalue2 != "n/a",]
+euNOG_orysj1filt$evalue2 = as.numeric(as.character(euNOG_orysj1filt$evalue2))
+euNOG_orysj1filt$difference = euNOG_orysj1filt$evalue1 / euNOG_orysj1filt$evalue2
+
+euNOG_orysj1filt$difference <- log10(euNOG_orysj1filt$difference)
+
+is.na(euNOG_orysj1filt) <- sapply(euNOG_orysj1filt, is.infinite)
+
+ggplot(data=euNOG_orysj1filt, aes(x=difference)) + geom_histogram(binwidth=10) + ggtitle("Rice top two hits")  
+```
+ 
+
+```{r, echo=FALSE}
+euNOG_traes = read.table("traes_edist.txt", header=TRUE)
+euNOG_traes1 = subset(euNOG_traes, euNOG_traes$evalue1!="n/a")
+euNOG_traes1$evalue1 = as.numeric(as.character(euNOG_traes1$evalue1))
+nohits_traes = nrow(euNOG_traes) - nrow(euNOG_traes1)
+nosig_traes = nrow(subset(euNOG_traes1, euNOG_traes1$evalue1>0.01))
+no_traes = nohits_traes + nosig_traes
+title_traes = paste("Wheat top hits\n", no_traes, "proteins had no significant hits\n")
+ggplot(euNOG_traes1, aes(x=evalue1)) + geom_density() + scale_x_log10() + ggtitle(title_traes)
+```
+
+
+```{r, echo=FALSE}
+euNOG_traes1filt = euNOG_traes1[euNOG_traes1$evalue2!=0 & euNOG_traes1$evalue2 != "n/a",]
+euNOG_traes1filt$evalue2 = as.numeric(as.character(euNOG_traes1filt$evalue2))
+euNOG_traes1filt$difference = euNOG_traes1filt$evalue1 / euNOG_traes1filt$evalue2
+
+euNOG_traes1filt$difference <- log10(euNOG_traes1filt$difference)
+
+is.na(euNOG_traes1filt) <- sapply(euNOG_traes1filt, is.infinite)
+
+ggplot(data=euNOG_traes1filt, aes(x=difference)) + geom_histogram(binwidth=10) + ggtitle("Wheat top two hits")
+```
