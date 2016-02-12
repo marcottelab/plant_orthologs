@@ -15,7 +15,8 @@ Code, script, and notes for creating ortholog groups for plants (arabidopsis, ri
 3. Process scan
   * Chose a process program to use depending on your needs
   * Write a bash file using run_process.sh as an example to run the process program of your choice on each scan result from each chunk of the proteome. Add to the same output file.
-
+  * If you are getting an error with any of these the first thing to check is the Biopython version (should be 1.66). 
+	
 ###Scripts and command line examples for arabidopsis
 **hmmer_scan.sh:** Takes fasta file containing proteome, directory for output, name for a new hmmdatabase or path to an existing hmmdatabase, name for results file, and optional path to a directory containing hmms if an existing hmmdatabase was not provided. Returns compressed hmm database if one was not provided and hmmscan text output. Searchs each protein sequence against an hmm database.
   `bash scripts/hmmer_scan.sh input_data/arath/uniprot-proteome%3AUP000006548.0.fasta output_data/euNOG_arath/ input_data/euNOG_pressed/euNOG_hmms scan0.txt`
